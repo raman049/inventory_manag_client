@@ -19,7 +19,7 @@ public class Test {
 		VendorVO vo2 = new VendorVO();
 		vo2.setAddress1("Key West");
 		vo2.setAddress2("blue sky drive");
-		vo2.setCity("Key west");
+		vo2.setCity("South Key west");
 		vo2.setEmail("cometoKey@west.com");
 		vo2.setFax("494949");
 		vo2.setPhone("394439");
@@ -28,6 +28,8 @@ public class Test {
 		vo2.setVendorName("West Supplier");
 		vo2.setZip("90393");
 		vo2.setVendorCode("KEYW");
-		VendorVOClient.dataEntry(vo2);
+		vo2.setPk(new Long(1117));
+		//VendorVOClient.updateData(vo2);
+		client.deactivateById(new Long(1095));
 	}
 }

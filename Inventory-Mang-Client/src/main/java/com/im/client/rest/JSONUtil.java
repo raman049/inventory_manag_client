@@ -6,10 +6,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.apache.http.entity.StringEntity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.client.entity.VendorVO;
 
 public class JSONUtil {
@@ -30,10 +29,15 @@ public class JSONUtil {
 		VendorVO vendorVO = mapper.readValue(sb.toString(), VendorVO.class);
 		return vendorVO;
 	}
-	public String getJSONFromEntity(Object obj, Class<?> clz) throws Exception{
+
+	public static StringEntity getJSONFromEntity(Object obj, Class<?> clz) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(obj);
-		return jsonInString;
+		jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+		// System.out.println(jsonInString);
+		StringEntity input = new StringEntity(jsonInString.toString());
+		input.setContentType("application/json");
+		return input;
 	}
 
 	public static List<VendorVO> getEntityFromJsonStringList(HttpResponse response) throws IOException {
@@ -49,10 +53,9 @@ public class JSONUtil {
 			sb.append(output);
 		}
 		ObjectMapper mapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
 		List<VendorVO> vendorVO = mapper.readValue(sb.toString(), List.class);
 		return vendorVO;
 	}
-
-	
 
 }
